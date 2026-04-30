@@ -2,7 +2,7 @@
 
 # A Tiled json file is called here a **Tiled_blob**
 # A Tiled layer object is called here a **Tiled_layer**
-# Tiled objetcs are a bit weird since their properties can either be embeded in json or found in a model file
+# Tiled objects are a bit weird since their properties can either be embeded in json or found in a model file
 
 # A Tiled object is called here a **Tiled_object**
 # A Tiled model is called here a **Tiled_model**
@@ -14,7 +14,7 @@ from types import SimpleNamespace
 from lxml import objectify
 
 
-# This defines where the module will search mor Tiled_model files
+# This defines where the module will search for Tiled_model files
 MODELS_DIRECTORIES = "./"
 
 
@@ -32,6 +32,8 @@ def get_typed_named_property(xml_properties_node, name):
             match prop.get('type'):
                 case "int":
                     return int(content)
+                case "bool":
+                    return content == "true"
                 case _:
                     return content
     raise ValueError(f"XML object does not have the attribute {name}")
