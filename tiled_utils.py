@@ -15,7 +15,7 @@ from lxml import objectify
 
 
 # This defines where the module will search for Tiled_model files
-MODELS_DIRECTORIES = "./"
+MODELS_DIRECTORIES = ["./"]
 
 
 ###############################
@@ -36,7 +36,7 @@ def get_typed_named_property(xml_properties_node, name):
                     return content == "true"
                 case _:
                     return content
-    raise ValueError(f"XML object does not have the attribute {name}")
+    raise ValueError(f"XML model object does not have the attribute {name}")
 
 
 ###############################
@@ -48,6 +48,11 @@ def read_tiled_json(input_path: str):
     Reads a Tiled file and returs a Tiled_blob
     """
     with open(input_path, "r") as j_file:
+        # Adds the input path to the MODELS_DIRECTORIES because tiled only export relative paths
+        fpath = os.path.dirname(os.path.abspath(input_path))
+        if fpath not in MODELS_DIRECTORIES:
+            MODELS_DIRECTORIES.append(fpath)
+
         return json.load(j_file, object_hook=lambda d: SimpleNamespace(**d))
 
 
